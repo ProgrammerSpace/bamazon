@@ -63,28 +63,31 @@ function userChoice() {
                         console.log("Sorry, Insufficient quantity!\n\n");
                         continueShopping();
                     } else {
-                        console.log("Order placed!\n");
+                        console.log("\nOrder placed!\n");
                         let inventoryUpdate = inStock - unitsToPurchase;
-                        connection.query("UPDATE products SET ? WHERE ?",
-                            [
-                                {
-                                    stock_quantity: inventoryUpdate
-                                },
-                                {
-                                    item_id: purchaseItem
-                                }
-                            ],
-                            function (err, res) {
-                                if (err) throw err;
-                            });
-                        connection.query("SELECT price FROM products WHERE ?",
+                        connection.query("SELECT price, product_sales FROM products WHERE ?",
                             {
                                 item_id: purchaseItem
                             }, function (err, res) {
                                 if (err) throw err;
                                 let unitPrice = res[0].price;
+                                let currentProdSales = res[0].product_sales;
                                 let payable = unitsToPurchase * unitPrice;
-                                console.log("Total cost: " + payable);
+                                let newProdSales = currentProdSales + payable;
+                                console.log("Total cost: " + payable.toFixed(2));
+                                connection.query("update products set ? where ?",
+                                    [
+                                        {
+                                            product_sales: newProdSales,
+                                            stock_quantity: inventoryUpdate
+                                        },
+                                        {
+                                            item_id: purchaseItem
+                                        }
+                                    ],
+                                    function (err, res) {
+                                        if (err) throw err;
+                                    });
                                 continueShopping();
                             });
                     }
