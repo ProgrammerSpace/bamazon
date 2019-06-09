@@ -47,7 +47,10 @@ function supervisorActions() {
 }
 
 function deptView() {
-    connection.query("SELECT max(departments.dept_id) AS department_id, departments.dept_name, max(departments.ohc) AS over_head_cost, sum(products.product_sales) AS total_sales FROM products JOIN departments ON departments.dept_name=products.department_name GROUP BY departments.dept_name ORDER BY department_id",
+    // connection.query("SELECT d.dept_id AS department_id, d.dept_name, d.ohc AS over_head_cost, sum(p.product_sales) AS total_sales FROM products p JOIN departments d ON d.dept_name=p.department_name GROUP BY d.dept_name ORDER BY department_id",
+    // Above select statement says "this is incompatible with sql_mode=only_full_group_by"
+
+    connection.query("SELECT max(d.dept_id) AS department_id, d.dept_name, max(d.ohc) AS over_head_cost, sum(p.product_sales) AS total_sales FROM products p JOIN departments d ON d.dept_name=p.department_name GROUP BY d.dept_name ORDER BY department_id",
         function (err, res) {
             if (err) throw err;
             console.table(res);
