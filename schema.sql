@@ -13,6 +13,7 @@ stock_quantity integer not null
 );
 
 -- Alter table schema to support third part of homework
+-- Adding column Product_Sales
 ALTER TABLE products
 ADD COLUMN product_sales decimal(5,2) AFTER price;
 
@@ -20,5 +21,5 @@ ADD COLUMN product_sales decimal(5,2) AFTER price;
 create table departments(
 dept_id integer primary key auto_increment not null,
 dept_name varchar(50) not null,
-ohc decimal(5,2)
+over_head_cost decimal(5,2)
 );

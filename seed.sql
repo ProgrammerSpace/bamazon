@@ -13,7 +13,7 @@ values("shuttle bat","Sports",10.99,20),
 ("Knife Set","Kitchen Appliance",49.99,2);
 
 -- Mock recirds for table departments
-insert into departments (dept_name, ohc)
+insert into departments (dept_name, over_head_cost)
 values ("sports", 50),
 ("Gadgets", 70),
 ("Home Decor", 40),
